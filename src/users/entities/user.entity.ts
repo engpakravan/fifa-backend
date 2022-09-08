@@ -9,13 +9,9 @@ import {
 import * as bcrypt from 'bcrypt';
 import { InternalServerErrorException } from '@nestjs/common';
 import { IsEmail, IsEnum, IsString } from 'class-validator';
-import { Restaurant } from '../../restaurants/entities/restaurant.entity';
-import { Order } from '../../order/entities/oder.entity';
 
 export enum UserRole {
   CLIENT = 'client',
-  OWNER = 'owner',
-  DELIVERY = 'delivery',
 }
 
 registerEnumType(UserRole, { name: 'UserRole' });
@@ -42,20 +38,6 @@ export class User extends CoreEntity {
   @Column({ default: false })
   @Field(() => Boolean)
   verified: boolean;
-
-  @Field(() => [Restaurant])
-  @OneToMany(() => Restaurant, (restaurant) => restaurant.name)
-  restaurants: Restaurant[];
-
-  //user has many order
-  @Field(() => [Order])
-  @OneToMany(() => Order, (order: Order) => order.customer)
-  order: Order[];
-
-  //user can be a driver of order
-  @Field(() => [Order])
-  @OneToMany(() => Order, (order: Order) => order.driver)
-  rides: Order;
 
   @BeforeInsert()
   @BeforeUpdate()

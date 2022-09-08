@@ -17,13 +17,6 @@ import { JwtMiddleware } from './jwt/jwt.middleware';
 import { AuthModule } from './auth/auth.module';
 import { Verification } from './users/entities/verification.entity';
 import { NotifierModule } from './notifier/notifier.module';
-import { RestaurantModule } from './restaurants/restaurant.module';
-import { Restaurant } from './restaurants/entities/restaurant.entity';
-import { Category } from './restaurants/entities/category.entity';
-import { Dish } from './restaurants/entities/dish.entity';
-import { OrderModule } from './order/order.module';
-import { OrderItem } from './order/entities/order-item.entity';
-import { Order } from './order/entities/oder.entity';
 
 @Module({
   imports: [
@@ -54,17 +47,8 @@ import { Order } from './order/entities/oder.entity';
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
-      entities: [
-        User,
-        Verification,
-        Restaurant,
-        Category,
-        Dish,
-        Order,
-        OrderItem,
-      ],
+      entities: [User, Verification],
       synchronize: process.env.NODE_ENV === 'dev',
-      // logging: process.env.NODE_ENV === 'dev',
     }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
@@ -86,8 +70,6 @@ import { Order } from './order/entities/oder.entity';
     NotifierModule.forRoot({}),
     AuthModule,
     UsersModule,
-    RestaurantModule,
-    OrderModule,
   ],
   controllers: [],
   providers: [],

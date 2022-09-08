@@ -1,5 +1,5 @@
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from './entities/user.entity';
+import { User, UserRole } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import { Injectable } from '@nestjs/common';
 import { CreateAccountDto } from './dtos/create-account.dto';
@@ -34,7 +34,9 @@ export class UsersService {
           ok: false,
           error: 'There is a user already with this email',
         };
-      const user = await this.users.save(this.users.create(createAccountDto));
+      const user = await this.users.save(
+        this.users.create({ ...createAccountDto, role: UserRole.CLIENT }),
+      );
       const verification = await this.verification.save(
         this.verification.create({
           user,
