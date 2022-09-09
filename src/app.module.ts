@@ -19,6 +19,8 @@ import { Verification } from './users/entities/verification.entity';
 import { NotifierModule } from './notifier/notifier.module';
 import { TeamModule } from './team/team.module';
 import { Team } from './team/entities/team.entity';
+import { Match } from './match/entities/match.entity';
+import { MatchModule } from './match/match.module';
 
 @Module({
   imports: [
@@ -49,7 +51,7 @@ import { Team } from './team/entities/team.entity';
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
-      entities: [User, Verification, Team],
+      entities: [User, Verification, Team, Match],
       synchronize: process.env.NODE_ENV === 'dev',
     }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
@@ -69,6 +71,7 @@ import { Team } from './team/entities/team.entity';
     AuthModule,
     UsersModule,
     TeamModule,
+    MatchModule,
   ],
   controllers: [],
   providers: [],

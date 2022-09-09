@@ -1,4 +1,4 @@
-import { Column, Entity } from 'typeorm';
+import { Column, Entity, JoinTable, ManyToMany } from 'typeorm';
 import { CoreEntity } from '../../common/entities/core.entity';
 import { Field, InputType, ObjectType } from '@nestjs/graphql';
 import { IsString } from 'class-validator';
@@ -21,4 +21,12 @@ export class Team extends CoreEntity {
   @Field(() => String)
   @IsString()
   avatarUrl: string;
+
+  @Column()
+  @ManyToMany(() => Team)
+  homeTeam: Team;
+
+  @Column()
+  @ManyToMany(() => Team)
+  awayTeam: Team;
 }
