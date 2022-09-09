@@ -17,6 +17,8 @@ import { JwtMiddleware } from './jwt/jwt.middleware';
 import { AuthModule } from './auth/auth.module';
 import { Verification } from './users/entities/verification.entity';
 import { NotifierModule } from './notifier/notifier.module';
+import { TeamModule } from './team/team.module';
+import { Team } from './team/entities/team.entity';
 
 @Module({
   imports: [
@@ -47,18 +49,14 @@ import { NotifierModule } from './notifier/notifier.module';
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
-      entities: [User, Verification],
+      entities: [User, Verification, Team],
       synchronize: process.env.NODE_ENV === 'dev',
     }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       installSubscriptionHandlers: true,
       autoSchemaFile: 'src/schema.gql',
-      // subscriptions: {
-      //   'graphql-ws': true,
-      // },
       context: ({ req, connection }) => {
-        console.log(connection);
         return {
           user: req['user'],
         };
@@ -70,6 +68,7 @@ import { NotifierModule } from './notifier/notifier.module';
     NotifierModule.forRoot({}),
     AuthModule,
     UsersModule,
+    TeamModule,
   ],
   controllers: [],
   providers: [],
