@@ -51,17 +51,18 @@ export class CrudService<T> {
   }
 
   async update(
-    criteria: FindConditions<T>,
+    criteria: string | number | FindConditions<T>,
     partialChange: QueryDeepPartialEntity<T>,
   ): Promise<PaginationOutput & { results?: T }> {
     try {
-      const result = await this.repository.findOne(criteria);
-      if (!result)
-        return {
-          ok: false,
-          error: 'NotFounded',
-        };
-      await this.repository.update(criteria, partialChange);
+      // const result = await this.repository.findOne(criteria);
+      // if (!result)
+      //   return {
+      //     ok: false,
+      //     error: 'NotFounded',
+      //   };
+      console.log({ criteria, partialChange });
+      await this.repository.update(criteria, { ...partialChange });
       return {
         ok: true,
       };
