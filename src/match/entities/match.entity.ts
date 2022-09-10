@@ -1,4 +1,4 @@
-import { Column, Entity, JoinTable, ManyToMany, OneToOne } from 'typeorm';
+import { Column, Entity, ManyToOne } from 'typeorm';
 import { CoreEntity } from '../../common/entities/core.entity';
 import { Field, InputType, ObjectType } from '@nestjs/graphql';
 import { IsString } from 'class-validator';
@@ -18,15 +18,17 @@ export class Match extends CoreEntity {
   @IsString()
   locationName: string;
 
-  @Column()
-  @Field(() => Team)
-  @ManyToMany(() => Team, { eager: true })
-  @JoinTable()
+  @Field(() => Team, { nullable: true })
+  @ManyToOne(() => Team, (match) => match.homeTeam, {
+    onDelete: 'SET NULL',
+    nullable: true,
+  })
   homeTeam: Team;
 
-  @Column()
-  @Field(() => Team)
-  @ManyToMany(() => Team, { eager: true })
-  @JoinTable()
+  @Field(() => Team, { nullable: true })
+  @ManyToOne(() => Team, (match) => match.awayTeam, {
+    onDelete: 'SET NULL',
+    nullable: true,
+  })
   awayTeam: Team;
 }

@@ -1,7 +1,15 @@
-import { Column, Entity, JoinTable, ManyToMany } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  JoinTable,
+  ManyToMany,
+  OneToMany,
+} from 'typeorm';
 import { CoreEntity } from '../../common/entities/core.entity';
 import { Field, InputType, ObjectType } from '@nestjs/graphql';
 import { IsString } from 'class-validator';
+import { Match } from '../../match/entities/match.entity';
 
 @InputType('TeamInputType', { isAbstract: true })
 @ObjectType()
@@ -22,11 +30,13 @@ export class Team extends CoreEntity {
   @IsString()
   avatarUrl: string;
 
-  @Column()
-  @ManyToMany(() => Team)
-  homeTeam: Team;
+  @Field(() => [Team])
+  @OneToMany(() => Team, (team) => team.homeTeam)
+  @JoinColumn()
+  homeTeam: Team[];
 
-  @Column()
-  @ManyToMany(() => Team)
-  awayTeam: Team;
+  @Field(() => [Team])
+  @OneToMany(() => Team, (team) => team.awayTeam)
+  @JoinColumn()
+  awayTeam: Team[];
 }
