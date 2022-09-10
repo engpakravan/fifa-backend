@@ -21,6 +21,7 @@ import { TeamModule } from './team/team.module';
 import { Team } from './team/entities/team.entity';
 import { Match } from './match/entities/match.entity';
 import { MatchModule } from './match/match.module';
+import { MatchReport } from './match/entities/match-report.entity';
 
 @Module({
   imports: [
@@ -51,7 +52,7 @@ import { MatchModule } from './match/match.module';
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
-      entities: [User, Verification, Team, Match],
+      entities: [User, Verification, Team, Match, MatchReport],
       synchronize: process.env.NODE_ENV === 'dev',
     }),
     GraphQLModule.forRoot<ApolloDriverConfig>({

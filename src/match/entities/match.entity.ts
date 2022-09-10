@@ -1,8 +1,9 @@
-import { Column, Entity, ManyToOne } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 import { CoreEntity } from '../../common/entities/core.entity';
 import { Field, InputType, ObjectType } from '@nestjs/graphql';
 import { IsString } from 'class-validator';
 import { Team } from '../../team/entities/team.entity';
+import { MatchReport, MatchReportEnum } from './match-report.entity';
 
 @InputType('MatchInputType', { isAbstract: true })
 @ObjectType()
@@ -31,4 +32,9 @@ export class Match extends CoreEntity {
     nullable: true,
   })
   awayTeam: Team;
+
+  @Field(() => [MatchReportEnum])
+  @OneToMany(() => MatchReport, (matchReport) => matchReport.match)
+  @JoinColumn()
+  matchReport: MatchReport[];
 }
