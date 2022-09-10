@@ -4,10 +4,10 @@ import { Match } from '../entities/match.entity';
 import { PaginationOutput } from '../../common/dtos/pagination.dto';
 
 @InputType()
-export class FindMatchInputDto extends PartialType(Match) {}
+export class FindMatchesInputDto extends PartialType(Match) {}
 
 @ObjectType()
-export class FindMatchOutputDto extends PaginationOutput {
-  @Field(() => Match)
-  results: Match;
+export class FindMatchesOutputDto extends PaginationOutput {
+  @Field(() => [Match])
+  results: Match[];
 }

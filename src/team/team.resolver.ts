@@ -20,7 +20,7 @@ export class TeamResolver {
 
   @Query(() => FindTeamOutputDto)
   async team_read(@Args('input') query: FindTeamInputDto) {
-    return this.teamsService.read(query);
+    return this.teamsService.read({ where: query });
   }
 
   @Mutation(() => CreateTeamOutputDto)

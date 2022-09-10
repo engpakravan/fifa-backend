@@ -2,6 +2,9 @@ import { DeepPartial, FindConditions, Repository } from 'typeorm';
 import { OutputDto } from '../dto/output';
 import { PaginationOutput } from './dtos/pagination.dto';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
+import { FindManyOptions } from 'typeorm/find-options/FindManyOptions';
+import { ObjectID } from 'typeorm/driver/mongodb/typings';
+import { FindOneOptions } from 'typeorm/find-options/FindOneOptions';
 
 type CriteriaType<T> = string | number | FindConditions<T>;
 
@@ -22,13 +25,15 @@ export class CrudService<T> {
     }
   }
 
-  async read<I, T>(
-    query: CriteriaType<I>,
+  async read<T, I = T>(
+    options?: FindOneOptions<T>,
   ): Promise<PaginationOutput & { results?: T }> {
     try {
       return {
         ok: true,
-        results: (await this.repository.findOne(query as DeepPartial<I>)) as T,
+        results: (await this.repository.findOne(
+          options as FindOneOptions,
+        )) as any,
       };
     } catch (e) {
       return {
@@ -39,7 +44,7 @@ export class CrudService<T> {
   }
 
   async readMany(
-    query: Partial<T>,
+    query: FindManyOptions<T>,
   ): Promise<PaginationOutput & { results?: Array<T> }> {
     try {
       return {

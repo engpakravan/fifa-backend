@@ -22,8 +22,8 @@ export class MatchService extends CrudService<Match> {
   async createMatch(input: CreateMatchInputDto): Promise<CreateMatchOutputDto> {
     try {
       const [homeTeam, awayTeam] = await Promise.all([
-        this.teamsService.read<Team, Team>(input.homeTeamId),
-        this.teamsService.read<Team, Team>(input.awayTeamId),
+        this.teamsService.read<Team, Team>({ where: { id: input.homeTeamId } }),
+        this.teamsService.read<Team, Team>({ where: { id: input.awayTeamId } }),
       ]);
       await this.Match.save(
         this.Match.create({
