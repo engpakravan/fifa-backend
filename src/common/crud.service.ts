@@ -3,6 +3,8 @@ import { OutputDto } from '../dto/output';
 import { PaginationOutput } from './dtos/pagination.dto';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
 
+type CriteriaType<T> = string | number | FindConditions<T>;
+
 export class CrudService<T> {
   constructor(private readonly repository: Repository<T>) {}
 
@@ -20,11 +22,13 @@ export class CrudService<T> {
     }
   }
 
-  async read(query: Partial<T>): Promise<PaginationOutput & { results?: T }> {
+  async read<I, T>(
+    query: CriteriaType<I>,
+  ): Promise<PaginationOutput & { results?: T }> {
     try {
       return {
         ok: true,
-        results: await this.repository.findOne(query),
+        results: (await this.repository.findOne(query as DeepPartial<I>)) as T,
       };
     } catch (e) {
       return {
@@ -51,7 +55,7 @@ export class CrudService<T> {
   }
 
   async update(
-    criteria: string | number | FindConditions<T>,
+    criteria: CriteriaType<T>,
     partialChange: QueryDeepPartialEntity<T>,
   ): Promise<PaginationOutput & { results?: T }> {
     try {

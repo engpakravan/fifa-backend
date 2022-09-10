@@ -23,7 +23,7 @@ export class MatchResolver {
 
   @Mutation(() => CreateMatchOutputDto)
   async match_create(@Args('input') input: CreateMatchInputDto) {
-    return this.MatchService.create(input);
+    return this.MatchService.createMatch(input);
   }
 
   @Mutation(() => UpdateMatchOutputDto)

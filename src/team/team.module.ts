@@ -8,5 +8,6 @@ import { CrudService } from '../common/crud.service';
 @Module({
   imports: [TypeOrmModule.forFeature([Team]), CrudService],
   providers: [TeamsService, TeamResolver],
+  exports: [TeamsService],
 })
 export class TeamModule {}
